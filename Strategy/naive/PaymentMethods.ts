@@ -1,0 +1,5 @@
+export enum PAYMENT_METHODS {
+  VISA = "VISA",
+  PAYPAL = "PAYPAL",
+  INSTAPAY = "INSTAPAY",
+}

@@ -1,0 +1,5 @@
+export enum MEMBERSHIP_TYPES {
+  GOLD = "GOLD",
+  PREMUIM = "PREMUIM",
+  REGULAR = "REGULAR",
+}
