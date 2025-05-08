@@ -86,6 +86,24 @@ class PasteCommand implements TextEditorCommand {
   }
 }
 
+class TextEditorShortcut {
+  private commands: Map<string, TextEditorCommand> = new Map();
+  private textEditor: TextEditor;
+  constructor(textEditor: TextEditor) {
+    this.textEditor = textEditor;
+  }
+  registerShortcut(key: string, command: TextEditorCommand): void {
+    this.commands.set(key, command);
+  }
+  executeShortcut(key: string): void {
+    const command = this.commands.get(key);
+    if (command) {
+      command.execute();
+    } else {
+      console.log(`Shortcut ${key} not found`);
+    }
+  }
+}
 class TextEditor {
   private text: string;
   private history: TextEditorHistory;
@@ -139,3 +157,10 @@ copyCommand.undo(); // Undo copy: Hello, world!
 const pasteCommand = new PasteCommand(editor);
 pasteCommand.execute(); // Pasted: Hello, world!
 pasteCommand.undo(); // Undo paste: Hello, world!
+
+const shortcut = new TextEditorShortcut(editor);
+shortcut.registerShortcut("Ctrl+C", copyCommand);
+shortcut.registerShortcut("Ctrl+V", pasteCommand);
+shortcut.executeShortcut("Ctrl+C"); // Copied: Hello, world!
+shortcut.executeShortcut("Ctrl+V"); // Pasted: Hello, world!
+shortcut.executeShortcut("Ctrl+X"); // Shortcut Ctrl+X not found
