@@ -18,7 +18,7 @@ interface FlightProvider {
   bookFlight(basePrice: number): void;
 }
 
-class EgyptAir implements FlightProvider {
+class TurkishAirlines implements FlightProvider {
   private loyalityType: LoyalityType;
   constructor(loyalityType: LoyalityType) {
     this.loyalityType = loyalityType;
@@ -32,11 +32,20 @@ class EgyptAir implements FlightProvider {
 }
 
 class EgyptAir implements FlightProvider {
-  constructor(private loyaltyProgram: LoyaltyProgram) {}
+  constructor(private loyalityType: LoyalityType) {}
 
   bookFlight(basePrice: number): void {
-    const discount = this.loyaltyProgram.getDiscount();
+    const discount = this.loyalityType.getDiscount();
     const finalPrice = basePrice - (basePrice * discount) / 100;
     console.log(`Booking with EgyptAir. Final Price: $${finalPrice}`);
   }
 }
+
+const premiumProgram = new PremiumLoyality();
+const basicProgram = new BasicLoyality();
+
+const turkishWithPremium = new TurkishAirlines(premiumProgram);
+const egyptAirWithBasic = new EgyptAir(basicProgram);
+
+turkishWithPremium.bookFlight(500);
+egyptAirWithBasic.bookFlight(400);
